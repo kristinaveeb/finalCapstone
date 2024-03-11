@@ -15,35 +15,35 @@ DATETIME_STRING_FORMAT = "%Y-%m-%d"
 
 # Function to register a new user
 def reg_user():
-        '''Add a new user to the user.txt file'''
-        # Request input of a new username
-        new_username = input("New Username: ")
-        if new_username in username_password.keys():
-            print("Username already exists. Please choose a different username.")
+    '''Add a new user to the user.txt file'''
+    # Request input of a new username
+    new_username = input("New Username: ")
+    if new_username in username_password.keys():
+        print("Username already exists. Please choose a different username.")
+        return
+
+    # Request input of a new password
+    new_password = input("New Password: ")
+
+    # Request input of password confirmation.
+    confirm_password = input("Confirm Password: ")
+
+    # Check if the new password and confirmed password are the same.
+    if new_password == confirm_password:
+        # If they are the same, add them to the user.txt file,
+        print("New user added")
+        username_password[new_username] = new_password
+            
+        with open("user.txt", "w") as out_file:
+            user_data = []
+            for k in username_password:
+                user_data.append(f"{k};{username_password[k]}")
+            out_file.write("\n".join(user_data))
             return
 
-        # Request input of a new password
-        new_password = input("New Password: ")
-
-        # Request input of password confirmation.
-        confirm_password = input("Confirm Password: ")
-
-        # Check if the new password and confirmed password are the same.
-        if new_password == confirm_password:
-            # If they are the same, add them to the user.txt file,
-            print("New user added")
-            username_password[new_username] = new_password
-            
-            with open("user.txt", "w") as out_file:
-                user_data = []
-                for k in username_password:
-                    user_data.append(f"{k};{username_password[k]}")
-                out_file.write("\n".join(user_data))
-                return
-
         # Otherwise you present a relevant message.
-        else:
-            print("Passwords do no match")
+    else:
+        print("Passwords do no match")
         
 #======= Add Tasks ================
 
@@ -282,7 +282,8 @@ while not logged_in:
     curr_user = input("Username: ")
     curr_pass = input("Password: ")
 
-    if curr_user == "admin" and curr_pass == "password":
+    if curr_user in username_password.keys() and \
+username_password[curr_user] == curr_pass:
         print("Login Successful!")
         logged_in = True
     else:
