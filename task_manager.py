@@ -1,9 +1,16 @@
-# Notes: 
-# 1. Use the following username and password to access the admin rights 
-# username: admin
-# password: password
-# 2. Ensure you open the whole folder for this task in VS Code otherwise the 
-# program will look in your root directory for the text files.
+'''User Management System
+
+This program provides functionalities for user registration, task assignment, task management, and report generation. 
+It allows users to register, add tasks, view tasks, edit tasks, and generate reports. The program is secured with a login 
+system. An admin user can access additional functionalities such as viewing all tasks, generating reports, and displaying statistics.
+
+Notes:
+1. Use the following username and password to access the admin rights
+username: admin
+password: password
+2. Ensure you open the whole folder for this task in VS Code otherwise the
+program will look in your root directory for the text files.
+'''
 
 #==== Importing Libraries ==========
 import os
@@ -13,9 +20,12 @@ DATETIME_STRING_FORMAT = "%Y-%m-%d"
 
 #======= New User ================
 
-# Function to register a new user
 def reg_user():
-    '''Add a new user to the user.txt file'''
+    '''Register a new user.
+This function prompts the user to input a new username and password. 
+It checks if the username already exists. If the password is confirmed,
+it adds the user to the user.txt file.
+'''
     # Request input of a new username
     new_username = input("New Username: ")
     if new_username in username_password.keys():
@@ -47,8 +57,12 @@ def reg_user():
         
 #======= Add Tasks ================
 
-# Function to add new tasks to specfic users
 def add_task():
+    '''Add a new task.
+This function prompts the user to input details of a new task, including
+the username of the person assigned to the task, task title, task description,
+ and due date. It saves the task details to the tasks.txt file.
+'''
     # Input username to assign task
     task_username = input("Name of person assigned to task: ")
     if task_username not in username_password.keys():
@@ -95,8 +109,12 @@ def add_task():
 
 #======= View All ================
 
-# Function to view tasks assigned to all users
 def view_all():
+    '''View all tasks.
+
+    This function displays all tasks assigned to users, including task details
+    such as title, assigned user, due date, etc.
+    '''
     # Use enumerate to print out task info for one task at a time
     for index, task in enumerate(task_list, 1):
         print(f"Task {index}:")
@@ -110,8 +128,11 @@ def view_all():
 
 #======= View Mine ================
         
-# Function to mark a task as complete
 def mark_task_complete(task_index):
+    '''View tasks assigned to the current user.
+
+    This function displays tasks assigned to the currently logged-in user.
+    '''
     # If statement to find task's assigned number
     if 0 < task_index <= len(task_list):
         task = task_list[task_index - 1]
@@ -166,8 +187,12 @@ def view_mine():
 
 #======= Generate Reports ================
 
-# Function to generate reports in seperate txt file
 def generate_reports():
+    '''Generate reports.
+
+    This function generates reports on task overview and user overview,
+    including total tasks, completed tasks, incomplete tasks, etc.
+    '''
     # Variables for task data
     total_tasks = len(task_list)
     completed_tasks = sum(1 for task in task_list if task['completed'])
@@ -218,9 +243,12 @@ if tasks_assigned_to_user != 0 else 0
             user_overview_file.write(f"Percentage overdue: {percentage_overdue:.2f}%\n")
 
 #======= Display Statistics ================
-            
-# Function to open and display reports from txt file
+
 def display_statistics():
+    '''Display statistics.
+
+    This function displays statistics based on the generated reports.
+    '''
     generate_reports()  # Generate reports if not already generated
     with open("task_overview.txt", "r") as task_overview_file:
         print("Task Overview:")
